@@ -52,11 +52,6 @@ app.use(multer({
 var initProject = function(projectName){
     console.log(projectName);
     
-//    mv ./projects/hyperspace2 ./projects/hyperspace2_tmp
-//    mv ./projects/hyperspace2/hyperspace2 ./projects/
-//        
-//    
-    
     async.series([
         function(seriesCallback){
             var cute = 'mv ./projects/' + projectName  + ' ./projects/' + projectName + '_tmp';
@@ -115,11 +110,47 @@ var initProject = function(projectName){
             else{
                 console.log(stdout);
                 console.log('DONE!');
+                createSystemFiles(projectName, 5555);
             }
         }); 
     });
 };
 
+var createSystemFiles = function(projectName, port){
+    fs.readFile('./scripts/node.sh', 'utf-8', function(err, data){
+        if (err) throw err;
+        var newValue = data.replace('PROJECTNAME=""', 'PROJECTNAME="' + projectName + '"');
+        newValue = data.replace('PORT=""', 'PORT="' + port + '"');
+
+        fs.writeFile('./projects/' + projectName + '/daemon.sh', newValue, 'utf-8', function (err) {
+            if (err) throw err;
+            console.log('startup script created');
+            var cute = 'chmod +x ./projects/' + projectName + '/daemon.sh';
+            exec(cute, function (error, stdout, stderr) {
+                if (error || stderr){
+                    console.log(error || stderr);
+                }
+                else{
+                    console.log(stdout);
+                    runProject(projectName);
+                }
+            });
+        });
+    });
+
+};
+
+var runProject = function(projectName){
+    var cute = './projects/' + projectName + '/daemon.sh';
+    exec(cute, function (error, stdout, stderr) {
+        if (error || stderr){
+            console.log(error || stderr);
+        }
+        else{
+            console.log(stdout);
+        }
+    });
+};
 
 app.use('/', routes);
 
