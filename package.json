@@ -19,6 +19,7 @@
         "moment": "latest",
         "cheerio": "latest",
         "debug": "latest",
-        "async": "latest"  
+        "async": "latest",
+        "multer": "latest"
     }
 }
