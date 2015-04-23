@@ -8,6 +8,7 @@ var multer = require('multer');
 var unzip = require('node-unzip');
 var fs = require('fs');
 var exec = require('child_process').exec;
+var async = require('async');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -38,24 +39,84 @@ app.use(multer({
         console.log(file.originalname + ' is starting ...');
     },
     onFileUploadComplete: function (file) {
+        var projectName = file.originalname.replace('.zip', '');
         console.log(file.fieldname + ' uploaded to  ' + file.path);
-        fs.createReadStream(file.path).pipe(unzip.Extract({ path: './projects/' + file.originalname.replace('.zip', '') 
+        fs.createReadStream(file.path).pipe(unzip.Extract({ path: './projects/' + projectName
                                                           }).on('close', function(){
             console.log('DONE!');
-            initProject(file.path);
+            initProject(projectName);
         }));
     }
 }));
 
-var initProject = function(filePath){
-    var cute = 'npm install ' + filePath;
-    exec(cute, function (error, stdout, stderr) {
-        if (error || stderr){
-            console.log(error || stderr);
+var initProject = function(projectName){
+    console.log(projectName);
+    
+//    mv ./projects/hyperspace2 ./projects/hyperspace2_tmp
+//    mv ./projects/hyperspace2/hyperspace2 ./projects/
+//        
+//    
+    
+    async.series([
+        function(seriesCallback){
+            var cute = 'mv ./projects/' + projectName  + ' ./projects/' + projectName + '_tmp';
+            exec(cute, function (error, stdout, stderr) {
+                if (error || stderr){
+                    console.log(error || stderr);
+                }
+                else{
+                    console.log(stdout);
+                    seriesCallback();
+                }
+            });
+        },
+        function(seriesCallback){
+            var cute = 'mv ./projects/' + projectName + '_tmp/' + projectName + ' ./projects/'
+            exec(cute, function (error, stdout, stderr) {
+                if (error || stderr){
+                    console.log(error || stderr);
+                }
+                else{
+                    console.log(stdout);
+                    seriesCallback();
+                }
+            }); 
+        },
+        function(seriesCallback){
+            var cute = 'rm -R ./projects/' + projectName + '_tmp';
+            exec(cute, function (error, stdout, stderr) {
+                if (error || stderr){
+                    console.log(error || stderr);
+                }
+                else{
+                    console.log(stdout);
+                    seriesCallback();
+                }
+            }); 
+        },
+        function(seriesCallback){
+            var cute = 'mkdir -p ./projects/' + projectName + '/node_modules';
+            exec(cute, function (error, stdout, stderr) {
+                if (error || stderr){
+                    console.log(error || stderr);
+                }
+                else{
+                    console.log(stdout);
+                    seriesCallback();
+                }
+            }); 
         }
-        else{
-            console.log('DONE!');
-        }
+    ], function(){
+        var cute = 'npm install --prefix ./projects/' + projectName;
+        exec(cute, function (error, stdout, stderr) {
+            if (error || stderr){
+                console.log(error || stderr);
+            }
+            else{
+                console.log(stdout);
+                console.log('DONE!');
+            }
+        }); 
     });
 };
 
