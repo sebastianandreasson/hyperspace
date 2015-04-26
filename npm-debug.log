@@ -1,0 +1,43 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--prefix',
+1 verbose cli   './projects/hyperspace2',
+1 verbose cli   '/projects/hyperspace2/package.json' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose node symlink /usr/local/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ '/projects/hyperspace2/package.json', null ]
+7 verbose cache add name=undefined spec="/projects/hyperspace2/package.json" args=["/projects/hyperspace2/package.json",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: '/projects/hyperspace2/package.json',
+8 verbose parsed url   path: '/projects/hyperspace2/package.json',
+8 verbose parsed url   href: '/projects/hyperspace2/package.json' }
+9 silly lockFile 787cf063-rojects-hyperspace2-package-json /projects/hyperspace2/package.json
+10 verbose lock /projects/hyperspace2/package.json /Users/sebastianandreasson/.npm/787cf063-rojects-hyperspace2-package-json.lock
+11 silly lockFile 787cf063-rojects-hyperspace2-package-json /projects/hyperspace2/package.json
+12 silly lockFile 787cf063-rojects-hyperspace2-package-json /projects/hyperspace2/package.json
+13 error addLocal Could not install /projects/hyperspace2/package.json
+14 error Error: ENOENT, stat '/projects/hyperspace2/package.json'
+15 error If you need help, you may report this *entire* log,
+15 error including the npm and node versions, at:
+15 error     <http://github.com/npm/npm/issues>
+16 error System Darwin 14.1.0
+17 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--prefix" "./projects/hyperspace2" "/projects/hyperspace2/package.json"
+18 error cwd /Users/sebastianandreasson/Documents/github/hyperspace
+19 error node -v v0.10.36
+20 error npm -v 1.4.28
+21 error path /projects/hyperspace2/package.json
+22 error code ENOENT
+23 error errno 34
+24 verbose exit [ 34, true ]

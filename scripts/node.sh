@@ -1,7 +1,7 @@
 #!/bin/sh -
 
-PROJECTNAME=""
-PORT=""
+PROJECTNAME="{PROJECTNAME}"
+PORT="{PORT}"
 
 NODE_ENV="production"
 APP_DIR="/root/hyperspace/projects/$PROJECTNAME"

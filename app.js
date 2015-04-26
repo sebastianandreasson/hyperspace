@@ -117,10 +117,10 @@ var initProject = function(projectName){
 };
 
 var createSystemFiles = function(projectName, port){
+    console.log('create systemfiles!');
     fs.readFile('./scripts/node.sh', 'utf-8', function(err, data){
         if (err) throw err;
-        var newValue = data.replace('PROJECTNAME=""', 'PROJECTNAME="' + projectName + '"');
-        newValue = data.replace('PORT=""', 'PORT="' + port + '"');
+        var newValue = data.replace('{PROJECTNAME}', projectName).replace('{PORT}', port);
 
         fs.writeFile('./projects/' + projectName + '/daemon.sh', newValue, 'utf-8', function (err) {
             if (err) throw err;
